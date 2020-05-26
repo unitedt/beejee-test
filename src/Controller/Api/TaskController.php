@@ -23,7 +23,7 @@ class TaskController
     public function __invoke(Request $_request)
     {
         $sorting = new TaskSorting($_request->query->get('sort', 'userName'), $_request->query->get('order', 'asc'));
-        $tasks = $this->repository->getAll($sorting, $_request->query->get('offset', 0), $_request->query->get('limit', 10));
+        $tasks = $this->repository->getAll($sorting, $_request->query->get('offset', 0), $_request->query->get('limit', 3));
 
         $ret = [
             'total' => $this->repository->count(),
