@@ -31,8 +31,8 @@ class TaskView
             'userName' => htmlspecialchars($this->task->getUserName(), ENT_QUOTES, 'UTF-8'),
             'email'    => htmlspecialchars($this->task->getEmail(), ENT_QUOTES, 'UTF-8'),
             'content'  => htmlspecialchars($this->task->getContent(), ENT_QUOTES, 'UTF-8'),
-            'isCompleted'   => $this->task->isCompleted(),
-            'isChangedByAdmin' => $this->task->isChangedByAdmin(),
+            'isCompleted'   => $this->task->isCompleted() ? '<span class="badge badge-success">Completed</span>' : '',
+            'isChangedByAdmin' => $this->task->isChangedByAdmin() ? '<span class="badge badge-warning">Changed by admin</span>' : '',
         ];
     }
 
