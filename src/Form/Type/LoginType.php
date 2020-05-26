@@ -29,11 +29,6 @@ class LoginType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		parent::configureOptions($resolver);
-// 		$resolver->setDefaults(array(
-// 			'data_class' => User::class,
-// 			'csrf_protection' => true,
-// 			'csrf_field_name' => '_token',
-// 		));
 	}
 
 	public function getName() {
