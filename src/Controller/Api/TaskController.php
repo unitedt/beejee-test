@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Repository\TaskRepositoryInterface;
 use App\ValueObject\TaskSorting;
 use App\Model\Task;
+use App\ValueObject\TaskView;
 use Symfony\Component\HttpFoundation\Request;
 
 class TaskController
@@ -26,7 +27,7 @@ class TaskController
 
         $ret = [
             'total' => $this->repository->count(),
-            'rows' =>  array_map(function(Task $task) { return $task->getViewValue(); }, $tasks),
+            'rows' =>  array_map(function(Task $task) { return (new TaskView($task))->getValues(); }, $tasks),
         ];
 
         return json_encode($ret);

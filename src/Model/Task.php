@@ -36,22 +36,6 @@ class Task
     private $isChangedByAdmin = false;
 
     /**
-     * Used for JSON result
-     * @return array
-     */
-    public function getViewValue(): array
-    {
-        return [
-            'id'       => $this->id,
-            'userName' => htmlspecialchars($this->userName, ENT_QUOTES, 'UTF-8'),
-            'email'    => htmlspecialchars($this->email, ENT_QUOTES, 'UTF-8'),
-            'content'  => htmlspecialchars($this->content, ENT_QUOTES, 'UTF-8'),
-            'isCompleted'   => $this->isCompleted,
-            'isChangedByAdmin' => $this->isChangedByAdmin,
-        ];
-    }
-
-    /**
      * @return int|null
      */
     public function getId(): ?int
