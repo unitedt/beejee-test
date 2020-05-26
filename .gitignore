@@ -1,0 +1,5 @@
+/var/cache/*
+!var/cache/.gitkeep
+/vendor/
+
+.idea

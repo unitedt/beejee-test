@@ -1,0 +1,46 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ container.get('app.root_uri') }}/assets/table/bootstrap-table.css">
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ container.get('app.root_uri') }}/assets/table/bootstrap-table.js"></script>
+    <script type= "text/javascript">
+        $( document ).ready(function() {
+            $('table')
+                .on('click-row.bs.table', function (e, row, $element, field) {
+                    document.location.href = '{{ container.get('app.root_uri') }}/task/' + row.id;
+                })
+                .on('load-success.bs.table', function (e, data) {
+                    data.rows.forEach(function(row) {
+                        row.isChangedByAdmin = row.isChangedByAdmin ? 'YES' : '';
+                        $('table').bootstrapTable('updateByUniqueId', {id: row.id, row: row});
+                    });
+                })
+
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+        <table data-toggle="table"
+               data-url="{{ container.get('app.root_uri') }}/api/tasks"
+               data-cache="false"
+               data-pagination="true"
+               data-side-pagination="server"
+               data-server-sort="true"
+            >
+            <thead>
+                <tr>
+                    <th data-field="userName" data-sortable="true">User Name</th>
+                    <th data-field="email" data-sortable="true">E-mail</th>
+                    <th data-field="content">Content</th>
+                    <th data-field="isCompleted" data-sortable="true" data-align="center" data-checkbox="true" data-checkbox-enabled="false" data-show-select-title="true" data-title="Completed" data-title-tooltip="Completed">Completed</th>
+                    <th data-field="isChangedByAdmin" data-checkbox="false" data-checkbox-enabled="false" data-show-select-title="true" data-title-tooltip="Changed by admin">Changed by admin</th>
+                </tr>
+            </thead>
+        </table>
+{% endblock %}
