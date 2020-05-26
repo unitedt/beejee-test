@@ -18,7 +18,7 @@
         {% block scripts %}
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
             <script type="text/javascript" src="{{ container.get('app.root_uri') }}/assets/js/bootstrap.js"></script>
-            <script type="text/javascript" src="{{ container.get('app.root_uri') }}/assets/js/bootstrap.bundle.js"></script>
+            {# <script type="text/javascript" src="{{ container.get('app.root_uri') }}/assets/js/bootstrap.bundle.js"></script> #}
             <script type= "text/javascript">
                 $( document ).ready(function() {
                     $('#new-task-button').on('click', function () {
@@ -38,13 +38,15 @@
             </nav>
         {% endblock navbar %}
 
-        <div class="container-fluid m-3">
-            <div class="container">{% include 'flash.twig' with { 'close': true } %}</div>
-
-            <div class="container"><h1>Tasks</h1></div>
-
+        <div class="container-fluid">
             <div class="container">
-                {% block content %}{% endblock %}
+                <div class="container m-3">{% include 'flash.twig' with { 'close': true } %}</div>
+
+                <div class="container"><h1>Tasks</h1></div>
+
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
         </div>
     </body>

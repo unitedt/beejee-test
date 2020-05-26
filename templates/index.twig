@@ -16,7 +16,7 @@
                 })
                 .on('load-success.bs.table', function (e, data) {
                     data.rows.forEach(function(row) {
-                        row.isChangedByAdmin = row.isChangedByAdmin ? 'YES' : '';
+                        row.isChangedByAdmin = row.isChangedByAdmin ? '<span class=\"badge badge-warning\">Changed by admin</span>' : '';
                         $('table').bootstrapTable('updateByUniqueId', {id: row.id, row: row});
                     });
                 })
@@ -39,7 +39,7 @@
                     <th data-field="email" data-sortable="true">E-mail</th>
                     <th data-field="content">Content</th>
                     <th data-field="isCompleted" data-sortable="true" data-align="center" data-checkbox="true" data-checkbox-enabled="false" data-show-select-title="true" data-title="Completed" data-title-tooltip="Completed">Completed</th>
-                    <th data-field="isChangedByAdmin" data-checkbox="false" data-checkbox-enabled="false" data-show-select-title="true" data-title-tooltip="Changed by admin">Changed by admin</th>
+                    <th data-field="isChangedByAdmin" data-checkbox="false" data-align="center" data-checkbox-enabled="false" data-show-select-title="true" data-title-tooltip="Changed by admin">Changed by admin</th>
                 </tr>
             </thead>
         </table>

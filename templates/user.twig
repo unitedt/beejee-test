@@ -1,14 +1,13 @@
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Admin
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{{ container.get('app.root_uri') }}/logout"><i class="glyphicon glyphicon-off"></i> Logout</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ container.get('app.root_uri') }}/logout">Logout</a>
             </div>
         </div>
     {% else %}
-
         <form action="{{ container.get('app.root_uri') }}/login" method="POST" class="form-inline navbar-right" role="form">
             <div class="form-group">
                 {{ form_widget(loginForm._username, {'attr': {'placeholder': "Login", 'class': 'form-control m-1'}}) }}
