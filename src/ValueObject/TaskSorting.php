@@ -21,14 +21,15 @@ class TaskSorting
      * TaskSorting constructor.
      * @param string $sort
      * @param string $order
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $sort, string $order)
     {
-        if (!\in_array($sort, self::SORT)) {
+        if (!\in_array($sort, self::SORT, 1)) {
             throw new \InvalidArgumentException('Invalid field to sort: ' . $sort);
         }
 
-        if (!\in_array($order, self::ORDER)) {
+        if (!\in_array($order, self::ORDER, 1)) {
             throw new \InvalidArgumentException('Invalid order to sort: ' . $order);
         }
 

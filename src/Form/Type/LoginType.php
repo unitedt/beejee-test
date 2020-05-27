@@ -31,6 +31,9 @@ class LoginType extends AbstractType {
 		parent::configureOptions($resolver);
 	}
 
+    /**
+     * @return string
+     */
 	public function getName() {
 		return 'login';
 	}

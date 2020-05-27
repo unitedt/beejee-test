@@ -38,6 +38,10 @@ class TaskRepository implements TaskRepositoryInterface
         }
     }
 
+    /**
+     * @param Task $task
+     * @return Task
+     */
     public function update(Task $task): Task {
         $qb = $this->conn->createQueryBuilder();
 
@@ -63,6 +67,10 @@ class TaskRepository implements TaskRepositoryInterface
         return $task;
     }
 
+    /**
+     * @param Task $task
+     * @return Task
+     */
     public function insert(Task $task): Task {
         $qb = $this->conn->createQueryBuilder();
 

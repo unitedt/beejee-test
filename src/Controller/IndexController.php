@@ -21,6 +21,11 @@ class IndexController extends GenericController
      */
     private $twig;
 
+    /**
+     * IndexController constructor.
+     * @param Environment $twig
+     * @param FormFactoryInterface $formFactory
+     */
     public function __construct(Environment $twig, FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
