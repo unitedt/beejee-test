@@ -41,6 +41,13 @@ try {
 // Serve web requests to app:
 while ($req = $psr7->acceptRequest()) {
     try {
+        // heartbeat
+        $conn = $container->get(\Doctrine\DBAL\Connection::class);
+        if (false === $conn->ping()) {
+            $conn->close();
+            $conn->connect();
+        }
+
         $request = $httpFoundationFactory->createRequest($req);
 
         // session
