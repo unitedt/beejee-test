@@ -36,7 +36,12 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Bridge\Twig\Extension\SecurityExtension;
 
 return [
-    'app.root_uri' => 'http://localhost:8080',
+    'app.root_uri' => DI\env('APP_ROOT_URI', 'http://localhost:8080'),
+    'db.name'      => DI\env('DB_NAME','beejee_test'),
+    'db.user'      => DI\env('DB_USER','root'),
+    'db.password'  => DI\env('DB_PASSWORD','r56t'),
+    'db.host'      => DI\env('DB_HOST','127.0.0.1'),
+    'db.port'      => DI\env('DB_PORT',3307),
 
     // Configure Router
     FastRoute\Dispatcher::class => function() {
@@ -56,13 +61,13 @@ return [
     },
 
     // Configure DB
-    Doctrine\DBAL\Connection::class => function() {
+    Doctrine\DBAL\Connection::class => function(ContainerInterface $c) {
         $connectionParams = [
-            'dbname'   => 'beejee_test',
-            'user'     => 'root',
-            'password' => 'r56t',
-            'host'     => 'localhost',
-            'port'     => 3307,
+            'dbname'   => $c->get('db.name'),
+            'user'     => $c->get('db.user'),
+            'password' => $c->get('db.password'),
+            'host'     => $c->get('db.host'),
+            'port'     => $c->get('db.port'),
             'charset' => 'utf8',
             'driver'   => 'pdo_mysql',
         ];
