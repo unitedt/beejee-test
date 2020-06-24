@@ -14,6 +14,7 @@ use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 ini_set('display_errors', 'stderr');
 require_once dirname(__DIR__) . '/vendor/autoload.php';
@@ -55,7 +56,8 @@ while ($req = $psr7->acceptRequest()) {
             session_id($request->cookies->get(session_name()));
         }
 
-        $session = new Session();
+        $sessionStorage = new NativeSessionStorage([], $container->get(SessionHandlerInterface::class));
+        $session = new Session($sessionStorage);
         $request->setSession($session);
 
         // update token storage
@@ -65,9 +67,7 @@ while ($req = $psr7->acceptRequest()) {
         $tokenStorage->setToken($token ?? new AnonymousToken($tokenGenerator->generateToken(), 'anonymous'));
 
         // update Csrf Token manager based on session
-        $container->set(CsrfTokenManager::class, function () use ($request) {
-            return new CsrfTokenManager(null, new SessionTokenStorage($request->getSession()));
-        });
+//        $container->set(CsrfTokenManager::class, new CsrfTokenManager(null, new SessionTokenStorage($request->getSession())));
 
         $twig = $container->get(\Twig\Environment::class);
         $twig->addGlobal('request', $request);

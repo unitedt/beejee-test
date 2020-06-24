@@ -19,7 +19,6 @@ use Doctrine\DBAL\DriverManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
-use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\InMemoryUserProvider;
@@ -34,6 +33,10 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Bridge\Twig\Extension\SecurityExtension;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 return [
     'app.root_uri' => DI\env('APP_ROOT_URI', 'http://localhost:8080'),
@@ -73,6 +76,17 @@ return [
         ];
 
         return DriverManager::getConnection($connectionParams);
+    },
+
+    // Configure Session Handler
+    SessionHandlerInterface::class => function (ContainerInterface $c) {
+        return new PdoSessionHandler(
+            'mysql:host=' . $c->get('db.host') . ';port=' . $c->get('db.port') . ';dbname=' . $c->get('db.name') . ';charset=utf8',
+            [
+                'db_username' => $c->get('db.user'),
+                'db_password' => $c->get('db.password'),
+            ]
+        );
     },
 
     // Configure User Provider
@@ -136,8 +150,10 @@ return [
     },
 
     // Configure CSRF Token Manager
-    CsrfTokenManager::class => function() {
-        return new CsrfTokenManager();
+    CsrfTokenManager::class => function(ContainerInterface $c) {
+        $sessionStorage = new NativeSessionStorage([], $c->get(SessionHandlerInterface::class));
+        $session = new Session($sessionStorage);
+        return new CsrfTokenManager(null, new SessionTokenStorage($session));
     },
 
     // Configure Validator component

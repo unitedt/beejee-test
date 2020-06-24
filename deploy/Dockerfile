@@ -2,6 +2,7 @@ FROM php:7.4-cli
 
 ENV DB_PORT 3307
 ENV DB_HOST 172.17.0.1
+ENV APP_ROOT_URI http://localhost:81
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   vim \

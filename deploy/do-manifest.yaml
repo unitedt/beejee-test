@@ -1,24 +1,22 @@
-apiVersion: v1
+---
 kind: Service
+apiVersion: v1
 metadata:
-  name: beejee-test-app-lb
+  name: beejee-test-app
 spec:
   type: LoadBalancer
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 8080
   selector:
     app: beejee-test-app
-
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: beejee-test-app
-  labels:
-    app: beejee-test-app
 spec:
   selector:
     matchLabels:
@@ -36,21 +34,22 @@ spec:
         app: beejee-test-app
     spec:
       containers:
-      - image: unitedt/beejee-test-app
+      - name: beejee-test-app
+        image: unitedt/beejee-test-app:latest
         imagePullPolicy: Always
-        name: beejee-test-app
         env:
           - name: APP_ROOT_URI
-            value: ""
+            value: "http://157.230.76.133"
           - name: DB_NAME
             value: "beejee_test"
           - name: DB_USER
-            value: "root"
+            value: "doadmin"
           - name: DB_PASSWORD
-            value: "r56t"
+            value: "d3iggh62toojdayt"
           - name: DB_HOST
-            value: "172.17.0.1"
+            value: "private-db-mysql-fra1-one-do-user-7647016-0.a.db.ondigitalocean.com"
           - name: DB_PORT
-            value: "3307"
+            value: "25060"
         ports:
-          - containerPort: 8080
+        - containerPort: 8080
+          protocol: TCP
